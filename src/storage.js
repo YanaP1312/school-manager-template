@@ -29,7 +29,7 @@ export function loadTraineeData() {
   }
 }
 
-console.log(loadTraineeData());
+// console.log(loadTraineeData());
 
 export function saveTraineeData(updatedData) {
   try {

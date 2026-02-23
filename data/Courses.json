@@ -4,5 +4,11 @@
     "name": "Intro to JavaScript Course",
     "startDate": "20226-02-01",
     "participants": [12345, 12346]
+  },
+  {
+    "id": 77421,
+    "name": "Basic HTML + CSS ",
+    "startDate": "20226-02-01",
+    "participants": [12345, 12346]
   }
 ]
