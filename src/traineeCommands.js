@@ -35,9 +35,9 @@ function addTrainee(firstName, lastName) {
   return `CREATED: ${id} ${firstName} ${lastName}`;
 }
 
-function getTraineeByIdOrThrow(id) {
-  const trainees = loadTraineeData();
+// console.log(addTrainee('Kate', 'Filkoni'));
 
+export function getTraineeByIdOrThrow(trainees, id) {
   const trainee = trainees.find((trainee) => trainee.id === id);
 
   if (!trainee) {
@@ -53,7 +53,7 @@ function updateTrainee(id, firstName, lastName) {
   }
 
   const trainees = loadTraineeData();
-  const trainee = getTraineeByIdOrThrow();
+  const trainee = getTraineeByIdOrThrow(trainees, id);
 
   trainee.firstName = firstName;
   trainee.lastName = lastName;
@@ -62,9 +62,11 @@ function updateTrainee(id, firstName, lastName) {
 
   return `UPDATED: ${id} ${firstName} ${lastName}`;
 }
+// console.log(updateTrainee(29819, 'Masha', 'Dorinko'));
 
 function deleteTrainee(id) {
-  const { firstName, lastName } = getTraineeByIdOrThrow(id);
+  const trainees = loadTraineeData();
+  const { firstName, lastName } = getTraineeByIdOrThrow(trainees, id);
   const traineesWithoutDeleted = trainees.filter(
     (trainee) => trainee.id !== id
   );
@@ -73,9 +75,11 @@ function deleteTrainee(id) {
 
   return `DELETED: ${id} ${firstName} ${lastName}`;
 }
+// console.log(deleteTrainee(99065));
 
 function fetchTrainee(id) {
-  const { firstName, lastName } = getTraineeByIdOrThrow(id);
+  const trainees = loadTraineeData();
+  const { firstName, lastName } = getTraineeByIdOrThrow(trainees, id);
   const coursesInfo = loadCourseData();
 
   const traineeCourses = coursesInfo
@@ -85,6 +89,7 @@ function fetchTrainee(id) {
 
   return `${id} ${firstName} ${lastName}\nCourses: ${traineeCourses}`;
 }
+// console.log(fetchTrainee(12345));
 
 function fetchAllTrainees() {
   const trainees = loadTraineeData();
@@ -101,6 +106,7 @@ function fetchAllTrainees() {
 
   return summary;
 }
+console.log(fetchAllTrainees());
 
 export function handleTraineeCommand(subcommand, args) {
   switch (subcommand) {
