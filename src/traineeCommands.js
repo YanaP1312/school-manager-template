@@ -30,10 +30,8 @@ function addTrainee(firstName, lastName) {
 
   saveTraineeData(trainees);
 
-  return `CREATED: ${id} ${firstName} ${lastName}`;
+  return chalk.cyan(`CREATED: ${id} ${firstName} ${lastName}`);
 }
-
-// console.log(addTrainee('Kate', 'Filkoni'));
 
 function updateTrainee(id, firstName, lastName) {
   if (!id || !firstName || !lastName) {
@@ -48,9 +46,8 @@ function updateTrainee(id, firstName, lastName) {
 
   saveTraineeData(trainees);
 
-  return `UPDATED: ${id} ${firstName} ${lastName}`;
+  return chalk.cyan(`UPDATED: ${id} ${firstName} ${lastName}`);
 }
-// console.log(updateTrainee(29819, 'Masha', 'Dorinko'));
 
 function deleteTrainee(id) {
   const trainees = loadTraineeData();
@@ -61,9 +58,8 @@ function deleteTrainee(id) {
 
   saveTraineeData(traineesWithoutDeleted);
 
-  return `DELETED: ${id} ${firstName} ${lastName}`;
+  return chalk.cyan(`DELETED: ${id} ${firstName} ${lastName}`);
 }
-// console.log(deleteTrainee(99065));
 
 function fetchTrainee(id) {
   const trainees = loadTraineeData();
@@ -75,9 +71,10 @@ function fetchTrainee(id) {
     .map((course) => course.name)
     .join(', ');
 
-  return `${id} ${firstName} ${lastName}\nCourses: ${traineeCourses}`;
+  return chalk.cyan(
+    `${id} ${firstName} ${lastName}\nCourses: ${traineeCourses}`
+  );
 }
-// console.log(fetchTrainee(12345));
 
 function fetchAllTrainees() {
   const trainees = loadTraineeData();
@@ -96,7 +93,6 @@ function fetchAllTrainees() {
 
   return summary;
 }
-// console.log(fetchAllTrainees());
 
 export function handleTraineeCommand(subcommand, args) {
   switch (subcommand) {

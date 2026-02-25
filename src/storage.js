@@ -29,8 +29,6 @@ export function loadTraineeData() {
   }
 }
 
-// console.log(loadTraineeData());
-
 export function saveTraineeData(updatedData) {
   try {
     if (!Array.isArray(updatedData)) {

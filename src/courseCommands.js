@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import { saveCourseData, loadCourseData, loadTraineeData } from './storage.js';
 import { getTraineeByIdOrThrow } from './traineeCommands.js';
 
-function addCourse(name, startDate) {
+export function addCourse(name, startDate) {
   if (!name || !startDate) {
     return chalk.red(`ERROR: Must provide course name and start date`);
   }
@@ -22,10 +22,8 @@ function addCourse(name, startDate) {
 
   saveCourseData(courses);
 
-  return `CREATED: ${id} ${name} ${startDate}`;
+  return chalk.cyan(`CREATED: ${id} ${name} ${startDate}`);
 }
-
-// console.log(addCourse('Easy introduction to Node.js', '2026-02-28'));
 
 function updateCourse(id, name, startDate) {
   if (!id || !name || !startDate) {
@@ -40,20 +38,16 @@ function updateCourse(id, name, startDate) {
 
   saveCourseData(courses);
 
-  return `UPDATE: ${id} ${name} ${startDate}`;
+  return chalk.cyan(`UPDATE: ${id} ${name} ${startDate}`);
 }
-
-// console.log(updateCourse(95971, 'Hard introduction to Node.js', '2026-04-16'));
 
 function deleteCourse(id) {
   const courses = loadCourseData();
   const { name } = getCourseByIdOrThrow(courses, id);
   const coursesWithoutDeleted = courses.filter((course) => course.id !== id);
   saveCourseData(coursesWithoutDeleted);
-  return `DELETED: ${id} ${name}`;
+  return chalk.cyan(`DELETED: ${id} ${name}`);
 }
-
-// console.log(deleteCourse(95971));
 
 function joinCourse(courseId, traineeId) {
   const { courses, course, courseName, traineeName } = getCourseWithTrainee(
@@ -82,10 +76,8 @@ function joinCourse(courseId, traineeId) {
   course.participants.push(traineeId);
   saveCourseData(courses);
 
-  return `${traineeName} Joined ${courseName}`;
+  return chalk.cyan(`${traineeName} Joined ${courseName}`);
 }
-
-// console.log(joinCourse(77421, 93520));
 
 function leaveCourse(courseId, traineeId) {
   const { courses, course, courseName, traineeName } = getCourseWithTrainee(
@@ -103,10 +95,8 @@ function leaveCourse(courseId, traineeId) {
 
   saveCourseData(courses);
 
-  return `${traineeName} Left ${courseName} `;
+  return chalk.cyan(`${traineeName} Left ${courseName} `);
 }
-
-// console.log(leaveCourse(77421, 93520));
 
 function getCourse(id) {
   const courses = loadCourseData();
@@ -131,8 +121,6 @@ function getCourse(id) {
   return courseSummary;
 }
 
-// console.log(getCourse(87421));
-
 function getAllCourses() {
   const courses = loadCourseData();
   const output = [];
@@ -151,8 +139,6 @@ function getAllCourses() {
   const allCoursesSummary = `${chalk.bgYellowBright.bold('Courses:')}\n${output.join(`\n`)}\n\n${chalk.bgYellowBright.bold('Total:')} ${chalk.bold(output.length)}`;
   return allCoursesSummary;
 }
-
-// console.log(getAllCourses());
 
 export function handleCourseCommand(subcommand, args) {
   switch (subcommand) {
