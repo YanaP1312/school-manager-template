@@ -3,7 +3,7 @@ import { saveTraineeData, loadTraineeData, loadCourseData } from './storage.js';
 
 function addTrainee(firstName, lastName) {
   if (!firstName || !lastName) {
-    throw new Error(chalk.red('Must provide first and last name'));
+    return chalk.red('ERROR: Must provide first and last name');
   }
 
   const id = Math.floor(Math.random() * 100000);
@@ -12,7 +12,7 @@ function addTrainee(firstName, lastName) {
   const trainees = loadTraineeData();
 
   if (trainees.some((trainee) => trainee.id === id)) {
-    throw new Error(chalk.red(`This id already exist`));
+    return chalk.red(`ERROR: This id already exist`);
   }
 
   if (
@@ -21,10 +21,8 @@ function addTrainee(firstName, lastName) {
         trainee.firstName === firstName && trainee.lastName === lastName
     )
   ) {
-    throw new Error(
-      chalk.red(
-        `The trainee with the same first and last name is already exist in the list`
-      )
+    return chalk.red(
+      `ERROR: The trainee with the same first and last name is already exist in the list`
     );
   }
 
@@ -37,19 +35,9 @@ function addTrainee(firstName, lastName) {
 
 // console.log(addTrainee('Kate', 'Filkoni'));
 
-export function getTraineeByIdOrThrow(trainees, id) {
-  const trainee = trainees.find((trainee) => trainee.id === id);
-
-  if (!trainee) {
-    throw new Error(chalk.red(`Trainee with id ${id} doesn't exist`));
-  }
-
-  return trainee;
-}
-
 function updateTrainee(id, firstName, lastName) {
   if (!id || !firstName || !lastName) {
-    throw new Error(chalk.red(`Must provide ID, first name and last name`));
+    return chalk.red(`ERROR: Must provide ID, first name and last name`);
   }
 
   const trainees = loadTraineeData();
@@ -93,9 +81,11 @@ function fetchTrainee(id) {
 
 function fetchAllTrainees() {
   const trainees = loadTraineeData();
-  trainees.sort((a, b) => a.lastName.localeCompare(b.lastName));
+  const traineesSortedLastName = [...trainees].sort((a, b) =>
+    a.lastName.localeCompare(b.lastName)
+  );
 
-  const traineesInfo = trainees
+  const traineesInfo = traineesSortedLastName
     .map(
       (trainee) =>
         `${chalk.bold(trainee.id)} ${chalk.cyan(trainee.firstName)} ${chalk.cyanBright(trainee.lastName)}`
@@ -106,7 +96,7 @@ function fetchAllTrainees() {
 
   return summary;
 }
-console.log(fetchAllTrainees());
+// console.log(fetchAllTrainees());
 
 export function handleTraineeCommand(subcommand, args) {
   switch (subcommand) {
@@ -135,6 +125,17 @@ export function handleTraineeCommand(subcommand, args) {
     }
 
     default:
-      throw new Error(chalk.red(`Invalid TRAINEE subcommand: ${subcommand}`));
+      return chalk.red(`ERROR: Invalid TRAINEE subcommand: ${subcommand}`);
   }
+}
+
+//helpers function
+export function getTraineeByIdOrThrow(trainees, id) {
+  const trainee = trainees.find((trainee) => trainee.id === id);
+
+  if (!trainee) {
+    return chalk.red(`ERROR: Trainee with id ${id} doesn't exist`);
+  }
+
+  return trainee;
 }
